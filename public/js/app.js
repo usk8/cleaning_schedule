@@ -13432,6 +13432,8 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
 __webpack_require__(/*! ./calendar */ "./resources/js/calendar.js");
 
 /***/ }),
@@ -13486,7 +13488,23 @@ var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(cale
   headerToolbar: {
     left: "prev,next today",
     center: "title",
-    right: ""
+    right: "dayGridMonth,timeGridWeek,listWeek"
+  },
+  locale: "ja",
+  events: function events(info, successCallback, failureCallback) {
+    // Laravelのイベント取得処理の呼び出し
+    axios.post("/schedule-get", {
+      start_date: info.start.valueOf(),
+      end_date: info.end.valueOf()
+    }).then(function (response) {
+      // 追加したイベントを削除
+      calendar.removeAllEvents(); // カレンダーに読み込み
+
+      successCallback(response.data);
+    })["catch"](function () {
+      // バリデーションエラーなど
+      alert("登録に失敗しました");
+    });
   }
 });
 calendar.render();

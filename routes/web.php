@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Route::get('/calendar', function () {
     return view('calendar');
 });
+
+Route::post('/schedule-get', [ScheduleController::class, 'scheduleGet'])->name('schedule-get');
