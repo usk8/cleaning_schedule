@@ -8,6 +8,16 @@ use App\Models\Schedule;
 class ScheduleController extends Controller
 {
     /**
+     * 詳細を表示
+     *
+     * @param  Request  $request
+     */
+    public function show(Request $request)
+    {
+        return view('calendar');
+    }
+
+    /**
      * イベントを取得
      *
      * @param  Request  $request
