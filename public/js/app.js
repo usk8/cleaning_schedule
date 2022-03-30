@@ -13484,12 +13484,12 @@ __webpack_require__.r(__webpack_exports__);
 var num = 1;
 
 var _loop = function _loop() {
-  console.log('テスト');
   var calendarElId = 'calendar' + String(num);
   var calendarEl = document.getElementById(calendarElId);
   var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(calendarEl, {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
     initialView: "dayGridMonth",
+    contentHeight: "auto",
     headerToolbar: {
       left: "prev,next today",
       center: "title",
@@ -13519,8 +13519,6 @@ var _loop = function _loop() {
 while (num <= 12) {
   _loop();
 }
-
-console.log('end');
 
 /***/ }),
 

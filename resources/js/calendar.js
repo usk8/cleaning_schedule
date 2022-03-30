@@ -9,6 +9,7 @@ while (num <= 12){
     let calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
+        contentHeight: "auto",
         headerToolbar: {
             left: "prev,next today",
             center: "title",
