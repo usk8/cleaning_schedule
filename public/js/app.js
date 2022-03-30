@@ -13481,58 +13481,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
 
 
-var calendarEl = document.getElementById("calendar");
-var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(calendarEl, {
-  plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
-  initialView: "dayGridMonth",
-  headerToolbar: {
-    left: "prev,next today",
-    center: "title",
-    right: "dayGridMonth,timeGridWeek,listWeek"
-  },
-  locale: "ja",
-  events: function events(info, successCallback, failureCallback) {
-    // Laravelのイベント取得処理の呼び出し
-    axios.post("/schedule-get", {
-      start_date: info.start.valueOf()
-    }).then(function (response) {
-      // 追加したイベントを削除
-      calendar.removeAllEvents(); // カレンダーに読み込み
+var num = 1;
 
-      successCallback(response.data);
-    })["catch"](function () {
-      // バリデーションエラーなど
-      alert("登録に失敗しました");
-    });
-  }
-});
-calendar.render();
-var calendarEl1 = document.getElementById("calendar1");
-var calendar1 = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(calendarEl1, {
-  plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
-  initialView: "dayGridMonth",
-  headerToolbar: {
-    left: "prev,next today",
-    center: "title",
-    right: "dayGridMonth,timeGridWeek,listWeek"
-  },
-  locale: "ja",
-  events: function events(info, successCallback, failureCallback) {
-    // Laravelのイベント取得処理の呼び出し
-    axios.post("/schedule-get", {
-      start_date: info.start.valueOf()
-    }).then(function (response) {
-      // 追加したイベントを削除
-      calendar1.removeAllEvents(); // カレンダーに読み込み
+var _loop = function _loop() {
+  console.log('テスト');
+  var calendarElId = 'calendar' + String(num);
+  var calendarEl = document.getElementById(calendarElId);
+  var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(calendarEl, {
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
+    initialView: "dayGridMonth",
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,listWeek"
+    },
+    locale: "ja",
+    events: function events(info, successCallback, failureCallback) {
+      // Laravelのイベント取得処理の呼び出し
+      axios.post("/schedule-get", {
+        start_date: info.start.valueOf(),
+        end_date: info.end.valueOf()
+      }).then(function (response) {
+        // 追加したイベントを削除
+        calendar.removeAllEvents(); // カレンダーに読み込み
 
-      successCallback(response.data);
-    })["catch"](function () {
-      // バリデーションエラーなど
-      alert("登録に失敗しました");
-    });
-  }
-});
-calendar1.render();
+        successCallback(response.data);
+      })["catch"](function () {
+        // バリデーションエラーなど
+        alert("登録に失敗しました");
+      });
+    }
+  });
+  calendar.render();
+  num++;
+};
+
+while (num <= 12) {
+  _loop();
+}
+
+console.log('end');
 
 /***/ }),
 

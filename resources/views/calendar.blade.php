@@ -1,8 +1,18 @@
 <html>
 <body>
     <h3>●●●●（顧客名）様　施工予定表 </h3>
-    <div id='calendar'></div>
     <div id='calendar1'></div>
+    <div id='calendar2'></div>
+    <div id='calendar3'></div>
+    <div id='calendar4'></div>
+    <div id='calendar5'></div>
+    <div id='calendar6'></div>
+    <div id='calendar7'></div>
+    <div id='calendar8'></div>
+    <div id='calendar9'></div>
+    <div id='calendar10'></div>
+    <div id='calendar11'></div>
+    <div id='calendar12'></div>
     <p>お客様の商品交換日は○印の日です。</p>
     <p>◆レンタルモップ　◆レンタルマット　◆レンタル浄水器</p>
     <p>★レンジフードフィルター　★エアコンクリーニング　★ハウスクリーニング</p>
