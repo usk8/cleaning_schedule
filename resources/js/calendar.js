@@ -32,3 +32,34 @@ let calendar = new Calendar(calendarEl, {
     },
 });
 calendar.render();
+
+var calendarEl1 = document.getElementById("calendar1");
+let calendar1 = new Calendar(calendarEl1, {
+    plugins: [dayGridPlugin],
+    initialView: "dayGridMonth",
+    headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,listWeek",
+    },
+    locale: "ja",
+    events: function (info, successCallback, failureCallback) {
+        // Laravelのイベント取得処理の呼び出し
+        axios
+            .post("/schedule-get", {
+                start_date: info.start.valueOf(),
+                end_date: info.end.valueOf(),
+            })
+            .then((response) => {
+                // 追加したイベントを削除
+                calendar1.removeAllEvents();
+                // カレンダーに読み込み
+                successCallback(response.data);
+            })
+            .catch(() => {
+                // バリデーションエラーなど
+                alert("登録に失敗しました");
+            });
+    },
+});
+calendar1.render();
