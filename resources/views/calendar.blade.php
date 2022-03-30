@@ -1,6 +1,11 @@
 <html>
 <head>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @if(app('env')=='local')
+      <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @endif
+    @if(app('env')=='production')
+      <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
+    @endif
 </head>
 <body>
   <h3 class="title">●●●●（顧客名）様　施工予定表 </h3>
