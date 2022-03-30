@@ -13490,11 +13490,6 @@ var _loop = function _loop() {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
     initialView: "dayGridMonth",
     contentHeight: "auto",
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,listWeek"
-    },
     locale: "ja",
     events: function events(info, successCallback, failureCallback) {
       // Laravelのイベント取得処理の呼び出し

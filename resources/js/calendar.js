@@ -10,11 +10,6 @@ while (num <= 12){
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
         contentHeight: "auto",
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,listWeek",
-        },
         locale: "ja",
         events: function (info, successCallback, failureCallback) {
             // Laravelのイベント取得処理の呼び出し
