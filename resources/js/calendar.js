@@ -6,9 +6,15 @@ while (num <= 12){
     let calendarElId = 'calendar' + String(num);
     let calendarEl = document.getElementById(calendarElId);
 
+    let d = new Date();
+    let date = new Date(d.getFullYear(), d.getMonth(), 1);
+    date.setMonth(date.getMonth() + num);
+    let yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+
     let calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
+        initialDate: yyyyMMdd,
         contentHeight: "auto",
         locale: "ja",
         events: function (info, successCallback, failureCallback) {

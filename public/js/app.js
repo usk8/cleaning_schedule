@@ -13486,9 +13486,17 @@ var num = 1;
 var _loop = function _loop() {
   var calendarElId = 'calendar' + String(num);
   var calendarEl = document.getElementById(calendarElId);
+  console.log('テスト開始');
+  var d = new Date();
+  var date = new Date(d.getFullYear(), d.getMonth(), 1);
+  date.setMonth(date.getMonth() + num);
+  var yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+  console.log(yyyyMMdd);
+  console.log('テスト終了');
   var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(calendarEl, {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__["default"]],
     initialView: "dayGridMonth",
+    initialDate: yyyyMMdd,
     contentHeight: "auto",
     locale: "ja",
     events: function events(info, successCallback, failureCallback) {
