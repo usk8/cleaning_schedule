@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="{{ asset('css/app.css', env('APP_ENV') === 'production' ? true : false) }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
   <h3 class="title">●●●●（顧客名）様　施工予定表 </h3>
