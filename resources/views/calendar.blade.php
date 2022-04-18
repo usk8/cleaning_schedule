@@ -29,7 +29,7 @@
       <p id='memo'></p>
 
       <div class="text-left">
-        <p><img class="fit-picture" src="icon.png" alt="" height="200" width="200"></p>
+        <p><img class="fit-picture" src="logo.svg" alt="" height="200" width="200"></p>
       </div>
       <div class="text-right">
         <h2>株 式 会 社 ク ラ イ ズ</h2>
