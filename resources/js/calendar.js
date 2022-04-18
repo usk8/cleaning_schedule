@@ -21,6 +21,7 @@ while (num <= 12){
             // Laravelのイベント取得処理の呼び出し
             axios
                 .post("/schedule-get", {
+                    client_id: document.getElementById('client_id').value,
                     start_date: info.start.valueOf(),
                     end_date: info.end.valueOf(),
                 })
@@ -29,10 +30,13 @@ while (num <= 12){
                     calendar.removeAllEvents();
                     // カレンダーに読み込み
                     successCallback(response.data);
+                    document.getElementsByClassName('title')[0].textContent = response.data[0].client + '様　施工予定表 ';
+                    document.getElementById('memo').textContent = response.data[0].memo;
+                    
                 })
                 .catch(() => {
                     // バリデーションエラーなど
-                    alert("登録に失敗しました");
+                    // alert("登録に失敗しました");
                 });
         },
     });

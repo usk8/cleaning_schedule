@@ -8,7 +8,8 @@
     @endif
 </head>
 <body>
-  <h3 class="title">●●●●（顧客名）様　施工予定表 </h3>
+  <input type="hidden" id="client_id" value="{{ $clientId }}">
+  <h3 class="title"></h3>
     <div class="items">
       <div id='calendar1' class="item" ></div>
       <div id='calendar2' class="item" ></div>
@@ -25,8 +26,7 @@
     </div>
     <div class="text">
       <h3 class="title">お客様の商品交換日は○印の日です。</h3>
-      <p>◆レンタルモップ　◆レンタルマット　◆レンタル浄水器</p>
-      <p>★レンジフードフィルター　★エアコンクリーニング　★ハウスクリーニング</p>
+      <p id='memo'></p>
 
       <div class="text-left">
         <p><img class="fit-picture" src="icon.png" alt="" height="200" width="200"></p>

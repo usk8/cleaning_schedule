@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/{id}', [ScheduleController::class, 'show'])->where('id', '[0-9]+');
+Route::get('/{clientId}', [ScheduleController::class, 'show']);
 
 Route::post('/schedule-get', [ScheduleController::class, 'scheduleGet'])->name('schedule-get');

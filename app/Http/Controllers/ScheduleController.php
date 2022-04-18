@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
@@ -12,9 +14,9 @@ class ScheduleController extends Controller
      *
      * @param  Request  $request
      */
-    public function show(Request $request)
+    public function show(Request $request, $clientId)
     {
-        return view('calendar');
+        return view('calendar', ['clientId' => $clientId]);
     }
 
     /**
@@ -35,16 +37,20 @@ class ScheduleController extends Controller
         $end_date = date('Y-m-d', $request->input('end_date') / 1000);
 
         // 登録処理
-        return Schedule::query()
-            ->select(
-                // FullCalendarの形式に合わせる
-                'start_date as start',
-                'end_date as end',
-                'event_name as title'
-            )
-            // FullCalendarの表示範囲のみ表示
-            ->where('end_date', '>', $start_date)
-            ->where('start_date', '<', $end_date)
-            ->get();
+        $sql = \DB::connection()
+        ->table('herokuconnect__c')
+        ->select(
+            // FullCalendarの形式に合わせる
+            'client__c as client',
+            'sekoubi__c as start',
+            'memo_sekouyoteihyou__c as memo',
+            DB::raw("'○' as title")
+        )
+        // FullCalendarの表示範囲のみ表示
+        ->where('clientid__c', '=', $request->input('client_id'))
+        ->whereBetween('sekoubi__c', [$start_date, $end_date])
+        ->get();
+
+        return $sql;
     }
 }
