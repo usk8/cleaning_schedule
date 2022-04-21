@@ -15,7 +15,7 @@ use App\Http\Controllers\ScheduleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('errors.404');
 });
 
 Route::get('/{clientId}', [ScheduleController::class, 'show']);
