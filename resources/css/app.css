@@ -46,3 +46,16 @@
  {
     display: none;
 }
+
+@media print {
+    body{
+        zoom: 50%;
+    }
+    .fc .fc-daygrid-body,.fc .fc-daygrid-body table ,.fc .fc-scrollgrid-section table{
+        width: 100%!important;
+    }
+    .item{
+        margin-bottom: 25px!important;
+    }
+}
+  
