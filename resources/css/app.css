@@ -49,7 +49,7 @@
 
 @media print {
     body{
-        zoom: 50%;
+        zoom: 35%;
     }
     .fc .fc-daygrid-body,.fc .fc-daygrid-body table ,.fc .fc-scrollgrid-section table{
         width: 100%!important;
