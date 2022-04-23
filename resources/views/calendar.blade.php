@@ -25,7 +25,6 @@
       <div id='calendar12' class="item" ></div>
     </div>
     <div class="text">
-      <h3 class="title">お客様の商品交換日は○印の日です。</h3>
       <p id='memo'></p>
 
       <div class="text-left">

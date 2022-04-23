@@ -44,7 +44,7 @@ class ScheduleController extends Controller
             'client__c as client',
             'sekoubi__c as start',
             'memo_sekouyoteihyou__c as memo',
-            DB::raw("'○' as title")
+            DB::raw("'' as title")
         )
         // FullCalendarの表示範囲のみ表示
         ->where('clientid__c', '=', $request->input('client_id'))
