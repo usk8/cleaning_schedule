@@ -17,6 +17,9 @@ while (num <= 12){
         initialDate: yyyyMMdd,
         contentHeight: "auto",
         locale: "ja",
+        dayCellContent: function(e) {
+            e.dayNumberText = e.dayNumberText.replace('日', '');
+        },
         events: function (info, successCallback, failureCallback) {
             // Laravelのイベント取得処理の呼び出し
             axios
