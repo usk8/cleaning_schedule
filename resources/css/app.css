@@ -86,20 +86,22 @@
 }
 
 .fc-h-event {
+    background-color: transparent !important;
     border: 1px solid red !important;
     display: block !important;
     height: 100% !important;
     width: 100% !important;
+    opacity: 1;
 }
 
 @media print {
-    body{
-        zoom: 70%;
+    body {
+        zoom: 60%;
     }
-    .fc .fc-daygrid-body,.fc .fc-daygrid-body table ,.fc .fc-scrollgrid-section table{
+    .fc .fc-daygrid-body,.fc .fc-daygrid-body table ,.fc .fc-scrollgrid-section table {
         width: 100%!important;
     }
-    .item{
+    .item {
         margin-bottom: 25px!important;
     }
 }
