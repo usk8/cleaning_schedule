@@ -47,9 +47,54 @@
     display: none;
 }
 
+.fc .fc-daygrid-day-top {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 1.4rem !important;
+}
+
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+    margin-bottom: 0 !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
+    margin-left: 0px !important;
+}
+
+.fc .fc-daygrid-event {
+    margin-top: 0px !important;
+    z-index: 6 !important;
+}
+
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 2em !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.fc .fc-daygrid-event-harness {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.fc-h-event {
+    border: 1px solid red !important;
+    display: block !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
 @media print {
     body{
-        zoom: 37.5%;
+        zoom: 70%;
     }
     .fc .fc-daygrid-body,.fc .fc-daygrid-body table ,.fc .fc-scrollgrid-section table{
         width: 100%!important;
