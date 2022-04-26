@@ -32,6 +32,11 @@
     margin-right: 10%;
     text-align: left;
     line-height: 1em;
+    font-size: 120%;
+}
+
+.text-right > p {
+    font-size: 120%;
 }
 
 #calendar1 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
