@@ -1,6 +1,6 @@
 .title {
     text-align: center;
-    text-decoration: underline;
+    font-size: 30px;
 }
 
 .items {
@@ -23,12 +23,15 @@
 
 .text-left {
     float: left;
-    margin-left: 20%;
+    margin-left: 5%;
 }
 
 .text-right {
     float: right;
-    margin-right: 20%;    
+    margin-top: 5%;
+    margin-right: 10%;
+    text-align: left;
+    line-height: 1em;
 }
 
 #calendar1 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
@@ -92,6 +95,10 @@
     height: 100% !important;
     width: 100% !important;
     opacity: 1;
+}
+
+.fc-day-other .fc-h-event{
+    border: none !important;
 }
 
 @media print {

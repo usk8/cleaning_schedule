@@ -28,13 +28,13 @@
       <p id='memo'></p>
 
       <div class="text-left">
-        <p><img class="fit-picture" src="logo.svg" alt="" height="200" width="200"></p>
+        <p><img class="fit-picture" src="logo.svg" alt="" height="250" width="250"></p>
       </div>
       <div class="text-right">
         <h2>株 式 会 社 ク ラ イ ズ</h2>
         <p>埼玉県北本市中丸7-153</p>
-        <p>TEL　０４８ー５０１ー７６５３</p>
-        <p>ﾌﾘｰﾀﾞｲｱﾙ　０１２０ー２１２１ー７４</p>
+        <p>TEL:048-501-7653</p>
+        <p>フリーダイアル 0120-2121-74</p>
       </div>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
