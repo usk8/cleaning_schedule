@@ -39,6 +39,12 @@
     font-size: 120%;
 }
 
+#memo {
+    font-size: xx-large;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #calendar1 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
 #calendar2 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
 #calendar3 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
