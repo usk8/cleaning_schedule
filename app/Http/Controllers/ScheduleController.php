@@ -41,14 +41,14 @@ class ScheduleController extends Controller
         ->table('herokuconnect__c')
         ->select(
             // FullCalendarの形式に合わせる
-            'client__c as client',
-            'sekoubi__c as start',
-            'memo_sekouyoteihyou__c as memo',
+            'heroku_torihikisaki__c as client',
+            'heroku_sekoubi__c as start',
+            'memo__c as memo',
             DB::raw("'' as title")
         )
         // FullCalendarの表示範囲のみ表示
-        ->where('clientid__c', '=', $request->input('client_id'))
-        ->whereBetween('sekoubi__c', [$start_date, $end_date])
+        ->where('id_heroku__c', '=', $request->input('client_id'))
+        ->whereBetween('heroku_sekoubi__c', [$start_date, $end_date])
         ->get();
 
         return $sql;
