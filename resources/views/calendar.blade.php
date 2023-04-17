@@ -10,6 +10,7 @@
 <body>
   <input type="hidden" id="client_id" value="{{ $clientId }}">
   <h3 class="title"></h3>
+    <p id="cancel-policy">お客様の施工日程については下記のようになっております。日程のご確認お願いいたします。なお、施工日の前日、もしくは当日のキャンセルについては施工金額100%のキャンセル料を頂いております。日程変更及びキャンセルのご要望についてはお早めにご連絡お願いいたします。</p>
     <div class="items">
       <div id='calendar1' class="item" ></div>
       <div id='calendar2' class="item" ></div>

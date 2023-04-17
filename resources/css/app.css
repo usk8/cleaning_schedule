@@ -18,7 +18,7 @@
 }
 
 .text {
-    text-align: center;
+    text-align: left;
 }
 
 .text-left {
@@ -39,10 +39,19 @@
     font-size: 120%;
 }
 
+#cancel-policy {
+    font-size: 120%;
+    text-align: left;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
 #memo {
-    font-size: xx-large;
+    font-size: 120%;
     margin-top: 0;
     margin-bottom: 0;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 #calendar1 > div.fc-header-toolbar.fc-toolbar > div:nth-child(3),
