@@ -1,12 +1,25 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+let d;
+
+let url = new URL(window.location.href);
+
+const pattern = /^\d{4}-(0[1-9]|1[0-2])$/;
+const url_start_date = url.searchParams.get('start_date');
+
+if (pattern.test(url_start_date)) {
+    let date = new Date(url_start_date);
+    d = new Date(date.getTime());
+} else {
+    d = new Date();
+}
+
 let num = 1;
 while (num <= 12){
     let calendarElId = 'calendar' + String(num);
     let calendarEl = document.getElementById(calendarElId);
 
-    let d = new Date();
     let date = new Date(d.getFullYear(), d.getMonth(), 1);
     date.setMonth(date.getMonth() + num);
     let yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
