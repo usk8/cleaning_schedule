@@ -34,6 +34,7 @@ http://127.0.0.1:8000/{対象のID} にアクセスして表示の確認。
 
 ### Deploy
 ```
+- npm run prod
 - git branch
 - git status
 - git add .

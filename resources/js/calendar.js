@@ -59,3 +59,38 @@ while (num <= 12){
     calendar.render();
     num++;
 }
+
+async function fetchHolidays(year) {
+    const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
+    const holidays = await response.json();
+    return Object.keys(holidays);
+}
+
+async function highlightHolidays() {
+    const currentYear = new Date().getFullYear();
+    const holidays = await fetchHolidays(currentYear);
+
+    // Note: We are selecting elements with the `data-date` attribute within `.fc-daygrid-day` class.
+    const daygridDays = document.querySelectorAll('.fc-daygrid-day[data-date]');
+
+    daygridDays.forEach((daygrid) => {
+        const date = daygrid.getAttribute('data-date');  // Getting the value of the data-date attribute
+        const hasHEvent = !!daygrid.querySelector('.fc-daygrid-event-harness > .fc-h-event');  // Using the nested selector to find .fc-h-event
+
+        if (holidays.includes(date) && hasHEvent) {
+            const dayNumberElement = daygrid.querySelector('.fc-daygrid-day-number');
+            dayNumberElement.style.color = 'red';
+            dayNumberElement.style.fontWeight = 'bold';
+        }
+    });
+}
+
+let checkInterval;
+function checkForHEventElements() {
+    if (document.querySelector('.fc-h-event')) {
+        clearInterval(checkInterval);  // Stop the interval once .fc-h-event elements are detected
+        highlightHolidays();
+    }
+}
+
+checkInterval = setInterval(checkForHEventElements, 1000);
