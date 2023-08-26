@@ -36,7 +36,7 @@ class ScheduleController extends Controller
         $start_date = date('Y-m-d', $request->input('start_date') / 1000);
         $end_date = date('Y-m-d', $request->input('end_date') / 1000);
 
-        // 登録処理
+        // 取得処理
         $sql = \DB::connection()
         ->table('herokuconnect__c')
         ->select(

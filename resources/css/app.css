@@ -117,6 +117,11 @@
     opacity: 1;
 }
 
+[role="gridcell"]:nth-child(1) .fc-daygrid-day-frame.fc-scrollgrid-sync-inner:has(.fc-h-event) .fc-daygrid-day-number {
+    color: red;
+    font-weight: bold;
+}
+
 .fc-day-other .fc-h-event{
     border: none !important;
 }
