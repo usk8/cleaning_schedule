@@ -4,6 +4,18 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 // Define a regex pattern to check YYYY-MM format
 const YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
 
+function renderCalendars() {
+    const initialDate = getInitialDate(getCurrentURLStartDate());
+    let index = 1;
+    while (index <= 12) {
+        let calendarEl = document.getElementById(createCalendarElementId(index));
+        let date = getNextDate(initialDate, index - 1);  // Adjusted the index for month addition
+        let calendar = initializeCalendar(calendarEl, date);
+        calendar.render();
+        index++;
+    }
+}
+
 // Extract start_date parameter from the current URL
 function getCurrentURLStartDate() {
     const currentURL = new URL(window.location.href);
@@ -22,8 +34,6 @@ function getInitialDate(startDate) {
     }
     return new Date();
 }
-
-const initialDate = getInitialDate(getCurrentURLStartDate());
 
 function createCalendarElementId(index) {
     return 'calendar' + index;
@@ -66,14 +76,7 @@ function initializeCalendar(element, date) {
     return calendar;
 }
 
-let index = 1;
-while (index <= 12) {
-    let calendarEl = document.getElementById(createCalendarElementId(index));
-    let date = getNextDate(initialDate, index - 1);  // Adjusted the index for month addition
-    let calendar = initializeCalendar(calendarEl, date);
-    calendar.render();
-    index++;
-}
+renderCalendars();
 
 async function fetchHolidays(year) {
     const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
@@ -100,12 +103,18 @@ async function highlightHolidays() {
     });
 }
 
-let checkInterval;
-function checkForHEventElements() {
-    if (document.querySelector('.fc-h-event')) {
-        clearInterval(checkInterval);  // Stop the interval once .fc-h-event elements are detected
-        highlightHolidays();
+function startCheckingForHEvents() {
+    let checkInterval;
+
+    function checkForHEventElements() {
+        if (document.querySelector('.fc-h-event')) {
+            clearInterval(checkInterval);  // Stop the interval once .fc-h-event elements are detected
+            highlightHolidays();
+        }
     }
+
+    checkInterval = setInterval(checkForHEventElements, 1000);
 }
 
-checkInterval = setInterval(checkForHEventElements, 1000);
+// Start the interval check for H-Event elements
+startCheckingForHEvents();
