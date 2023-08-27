@@ -25,49 +25,54 @@ function getInitialDate(startDate) {
 
 const initialDate = getInitialDate(getCurrentURLStartDate());
 
-let num = 1;
-while (num <= 12){
-    let calendarElId = 'calendar' + String(num);
-    let calendarEl = document.getElementById(calendarElId);
+function createCalendarElementId(index) {
+    return 'calendar' + index;
+}
 
-    let date = new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
-    date.setMonth(date.getMonth() + num);
-    let yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+function getNextDate(date, monthsToAdd) {
+    let newDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    newDate.setMonth(newDate.getMonth() + monthsToAdd);
+    let formattedDate = newDate.getFullYear() + '-' + String(newDate.getMonth()).padStart(2, '0') + '-' + String(newDate.getDate()).padStart(2, '0');
+    return formattedDate;
+}
 
-    let calendar = new Calendar(calendarEl, {
+function initializeCalendar(element, date) {
+    let calendar = new Calendar(element, {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
-        initialDate: yyyyMMdd,
+        initialDate: date,
         contentHeight: "auto",
         locale: "ja",
         dayCellContent: function(e) {
             e.dayNumberText = e.dayNumberText.replace('日', '');
         },
-        events: function (info, successCallback, failureCallback) {
-            // Laravelのイベント取得処理の呼び出し
-            axios
-                .post("/schedule-get", {
-                    client_id: document.getElementById('client_id').value,
-                    start_date: info.start.valueOf(),
-                    end_date: info.end.valueOf(),
-                })
-                .then((response) => {
-                    // 追加したイベントを削除
-                    calendar.removeAllEvents();
-                    // カレンダーに読み込み
-                    successCallback(response.data);
-                    document.getElementsByClassName('title')[0].textContent = response.data[0].client + '様　施工予定表 ';
-                    document.getElementById('memo').textContent = response.data[0].memo;
-                    
-                })
-                .catch(() => {
-                    // バリデーションエラーなど
-                    // alert("登録に失敗しました");
-                });
+        events: function(info, successCallback, failureCallback) {
+            axios.post("/schedule-get", {
+                client_id: document.getElementById('client_id').value,
+                start_date: info.start.valueOf(),
+                end_date: info.end.valueOf(),
+            })
+            .then((response) => {
+                calendar.removeAllEvents();  // This is now correctly referencing the local calendar variable
+                successCallback(response.data);
+                document.getElementsByClassName('title')[0].textContent = response.data[0].client + '様 施工予定表 ';
+                document.getElementById('memo').textContent = response.data[0].memo;
+            })
+            .catch(() => {
+                // Handle the error, if any
+            });
         },
     });
+    return calendar;
+}
+
+let index = 1;
+while (index <= 12) {
+    let calendarEl = document.getElementById(createCalendarElementId(index));
+    let date = getNextDate(initialDate, index - 1);  // Adjusted the index for month addition
+    let calendar = initializeCalendar(calendarEl, date);
     calendar.render();
-    num++;
+    index++;
 }
 
 async function fetchHolidays(year) {
