@@ -1,38 +1,39 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-// Define a regex pattern to check YYYY-MM format
-const YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
+class DateManager {
+    static #YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
+
+    #getCurrentURLStartDate() {
+        const currentURL = new URL(window.location.href);
+        return currentURL.searchParams.get('start_date');
+    }
+
+    #isValidDatePattern(date) {
+        return DateManager.#YYYY_MM_PATTERN.test(date);
+    }
+
+    static getInitialDate() {
+        const dateManagerInstance = new DateManager();
+        const startDate = dateManagerInstance.#getCurrentURLStartDate();
+        if (dateManagerInstance.#isValidDatePattern(startDate)) {
+            return new Date(startDate);
+        }
+        return new Date();
+    }
+}
+
 
 function renderCalendars() {
-    const initialDate = getInitialDate(getCurrentURLStartDate());
+    const initialDate = DateManager.getInitialDate();
     let index = 1;
     while (index <= 12) {
         let calendarEl = document.getElementById(createCalendarElementId(index));
-        let date = getNextDate(initialDate, index - 1);  // Adjusted the index for month addition
+        let date = getNextDate(initialDate, index - 1);
         let calendar = initializeCalendar(calendarEl, date);
         calendar.render();
         index++;
     }
-}
-
-// Extract start_date parameter from the current URL
-function getCurrentURLStartDate() {
-    const currentURL = new URL(window.location.href);
-    return currentURL.searchParams.get('start_date');
-}
-
-// Check if a given date matches the expected YYYY-MM pattern
-function isValidDatePattern(date) {
-    return YYYY_MM_PATTERN.test(date);
-}
-
-// Return the initial date based on the start_date parameter
-function getInitialDate(startDate) {
-    if (isValidDatePattern(startDate)) {
-        return new Date(startDate);
-    }
-    return new Date();
 }
 
 function createCalendarElementId(index) {
@@ -42,7 +43,7 @@ function createCalendarElementId(index) {
 function getNextDate(date, monthsToAdd) {
     let newDate = new Date(date.getFullYear(), date.getMonth(), 1);
     newDate.setMonth(newDate.getMonth() + monthsToAdd);
-    let formattedDate = newDate.getFullYear() + '-' + String(newDate.getMonth()).padStart(2, '0') + '-' + String(newDate.getDate()).padStart(2, '0');
+    let formattedDate = newDate.getFullYear() + '-' + String(newDate.getMonth() + 1).padStart(2, '0') + '-' + String(newDate.getDate()).padStart(2, '0');
     return formattedDate;
 }
 
