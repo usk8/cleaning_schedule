@@ -1,23 +1,29 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-// Get the current URL and extract start_date parameter
-const currentURL = new URL(window.location.href);
-const startDateParam = currentURL.searchParams.get('start_date');
-
 // Define a regex pattern to check YYYY-MM format
-// This ensures we expect dates in the format like "2022-08"
 const YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
 
-let initialDate;
-
-// If the start_date from URL matches our pattern, use it. Otherwise, use the current date
-if (YYYY_MM_PATTERN.test(startDateParam)) {
-    let dateFromURL = new Date(startDateParam);
-    initialDate = new Date(dateFromURL.getTime());
-} else {
-    initialDate = new Date();
+// Extract start_date parameter from the current URL
+function getCurrentURLStartDate() {
+    const currentURL = new URL(window.location.href);
+    return currentURL.searchParams.get('start_date');
 }
+
+// Check if a given date matches the expected YYYY-MM pattern
+function isValidDatePattern(date) {
+    return YYYY_MM_PATTERN.test(date);
+}
+
+// Return the initial date based on the start_date parameter
+function getInitialDate(startDate) {
+    if (isValidDatePattern(startDate)) {
+        return new Date(startDate);
+    }
+    return new Date();
+}
+
+const initialDate = getInitialDate(getCurrentURLStartDate());
 
 let num = 1;
 while (num <= 12){
