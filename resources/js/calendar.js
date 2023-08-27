@@ -1,18 +1,22 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-let d;
+// Get the current URL and extract start_date parameter
+const currentURL = new URL(window.location.href);
+const startDateParam = currentURL.searchParams.get('start_date');
 
-let url = new URL(window.location.href);
+// Define a regex pattern to check YYYY-MM format
+// This ensures we expect dates in the format like "2022-08"
+const YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
 
-const pattern = /^\d{4}-(0[1-9]|1[0-2])$/;
-const url_start_date = url.searchParams.get('start_date');
+let initialDate;
 
-if (pattern.test(url_start_date)) {
-    let date = new Date(url_start_date);
-    d = new Date(date.getTime());
+// If the start_date from URL matches our pattern, use it. Otherwise, use the current date
+if (YYYY_MM_PATTERN.test(startDateParam)) {
+    let dateFromURL = new Date(startDateParam);
+    initialDate = new Date(dateFromURL.getTime());
 } else {
-    d = new Date();
+    initialDate = new Date();
 }
 
 let num = 1;
@@ -20,7 +24,7 @@ while (num <= 12){
     let calendarElId = 'calendar' + String(num);
     let calendarEl = document.getElementById(calendarElId);
 
-    let date = new Date(d.getFullYear(), d.getMonth(), 1);
+    let date = new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
     date.setMonth(date.getMonth() + num);
     let yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
 
