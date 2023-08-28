@@ -1,64 +1,83 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-let d;
+class DateManager {
+    static #YYYY_MM_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
 
-let url = new URL(window.location.href);
+    #getCurrentURLStartDate() {
+        const currentURL = new URL(window.location.href);
+        return currentURL.searchParams.get('start_date');
+    }
 
-const pattern = /^\d{4}-(0[1-9]|1[0-2])$/;
-const url_start_date = url.searchParams.get('start_date');
+    #isValidDatePattern(date) {
+        return DateManager.#YYYY_MM_PATTERN.test(date);
+    }
 
-if (pattern.test(url_start_date)) {
-    let date = new Date(url_start_date);
-    d = new Date(date.getTime());
-} else {
-    d = new Date();
+    static getInitialDate() {
+        const dateManagerInstance = new DateManager();
+        const startDate = dateManagerInstance.#getCurrentURLStartDate();
+        if (dateManagerInstance.#isValidDatePattern(startDate)) {
+            return new Date(startDate);
+        }
+        return new Date();
+    }
 }
 
-let num = 1;
-while (num <= 12){
-    let calendarElId = 'calendar' + String(num);
-    let calendarEl = document.getElementById(calendarElId);
 
-    let date = new Date(d.getFullYear(), d.getMonth(), 1);
-    date.setMonth(date.getMonth() + num);
-    let yyyyMMdd = String(date.getFullYear()) + '-' + String(date.getMonth()).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+function renderCalendars() {
+    const initialDate = DateManager.getInitialDate();
+    let index = 1;
+    while (index <= 12) {
+        let calendarEl = document.getElementById(createCalendarElementId(index));
+        let date = getNextDate(initialDate, index - 1);
+        let calendar = initializeCalendar(calendarEl, date);
+        calendar.render();
+        index++;
+    }
+}
 
-    let calendar = new Calendar(calendarEl, {
+function createCalendarElementId(index) {
+    return 'calendar' + index;
+}
+
+function getNextDate(date, monthsToAdd) {
+    let newDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    newDate.setMonth(newDate.getMonth() + monthsToAdd);
+    let formattedDate = newDate.getFullYear() + '-' + String(newDate.getMonth() + 1).padStart(2, '0') + '-' + String(newDate.getDate()).padStart(2, '0');
+    return formattedDate;
+}
+
+function initializeCalendar(element, date) {
+    let calendar = new Calendar(element, {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
-        initialDate: yyyyMMdd,
+        initialDate: date,
         contentHeight: "auto",
         locale: "ja",
         dayCellContent: function(e) {
             e.dayNumberText = e.dayNumberText.replace('日', '');
         },
-        events: function (info, successCallback, failureCallback) {
-            // Laravelのイベント取得処理の呼び出し
-            axios
-                .post("/schedule-get", {
-                    client_id: document.getElementById('client_id').value,
-                    start_date: info.start.valueOf(),
-                    end_date: info.end.valueOf(),
-                })
-                .then((response) => {
-                    // 追加したイベントを削除
-                    calendar.removeAllEvents();
-                    // カレンダーに読み込み
-                    successCallback(response.data);
-                    document.getElementsByClassName('title')[0].textContent = response.data[0].client + '様　施工予定表 ';
-                    document.getElementById('memo').textContent = response.data[0].memo;
-                    
-                })
-                .catch(() => {
-                    // バリデーションエラーなど
-                    // alert("登録に失敗しました");
-                });
+        events: function(info, successCallback, failureCallback) {
+            axios.post("/schedule-get", {
+                client_id: document.getElementById('client_id').value,
+                start_date: info.start.valueOf(),
+                end_date: info.end.valueOf(),
+            })
+            .then((response) => {
+                calendar.removeAllEvents();  // This is now correctly referencing the local calendar variable
+                successCallback(response.data);
+                document.getElementsByClassName('title')[0].textContent = response.data[0].client + '様 施工予定表 ';
+                document.getElementById('memo').textContent = response.data[0].memo;
+            })
+            .catch(() => {
+                // Handle the error, if any
+            });
         },
     });
-    calendar.render();
-    num++;
+    return calendar;
 }
+
+renderCalendars();
 
 async function fetchHolidays(year) {
     const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
@@ -85,12 +104,18 @@ async function highlightHolidays() {
     });
 }
 
-let checkInterval;
-function checkForHEventElements() {
-    if (document.querySelector('.fc-h-event')) {
-        clearInterval(checkInterval);  // Stop the interval once .fc-h-event elements are detected
-        highlightHolidays();
+function startCheckingForHEvents() {
+    let checkInterval;
+
+    function checkForHEventElements() {
+        if (document.querySelector('.fc-h-event')) {
+            clearInterval(checkInterval);  // Stop the interval once .fc-h-event elements are detected
+            highlightHolidays();
+        }
     }
+
+    checkInterval = setInterval(checkForHEventElements, 1000);
 }
 
-checkInterval = setInterval(checkForHEventElements, 1000);
+// Start the interval check for H-Event elements
+startCheckingForHEvents();
