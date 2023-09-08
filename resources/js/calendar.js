@@ -61,9 +61,12 @@ while (num <= 12){
 }
 
 async function fetchHolidays(year) {
-    const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
-    const holidays = await response.json();
-    return Object.keys(holidays);
+    const nextYear = year + 1;
+    const responseThisYear = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
+    const holidaysThisYear = await responseThisYear.json();
+    const responseNextYear = await fetch(`https://holidays-jp.github.io/api/v1/${nextYear}/date.json`);
+    const holidaysNextYear = await responseNextYear.json();
+    return [...Object.keys(holidaysThisYear), ...Object.keys(holidaysNextYear)];
 }
 
 async function highlightHolidays() {
@@ -71,11 +74,11 @@ async function highlightHolidays() {
     const holidays = await fetchHolidays(currentYear);
 
     // Note: We are selecting elements with the `data-date` attribute within `.fc-daygrid-day` class.
-    const daygridDays = document.querySelectorAll('.fc-daygrid-day[data-date]');
+    const daygridDays = document.querySelectorAll('.fc-daygrid-day[data-date]:not(.fc-day-other)');
 
     daygridDays.forEach((daygrid) => {
         const date = daygrid.getAttribute('data-date');  // Getting the value of the data-date attribute
-        const hasHEvent = !!daygrid.querySelector('.fc-daygrid-event-harness > .fc-h-event');  // Using the nested selector to find .fc-h-event
+        const hasHEvent = !!daygrid.querySelector('.fc-daygrid-event-harness .fc-h-event');  // Using the nested selector to find .fc-h-event
 
         if (holidays.includes(date) && hasHEvent) {
             const dayNumberElement = daygrid.querySelector('.fc-daygrid-day-number');
