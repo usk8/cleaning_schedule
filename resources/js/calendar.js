@@ -70,7 +70,14 @@ async function fetchHolidays(year) {
 }
 
 async function highlightHolidays() {
-    const currentYear = new Date().getFullYear();
+    let currentYear;
+
+    if (pattern.test(url_start_date)) {
+        currentYear = new Date(url_start_date).getFullYear();
+    } else {
+        currentYear = new Date().getFullYear();
+    }
+
     const holidays = await fetchHolidays(currentYear);
 
     // Note: We are selecting elements with the `data-date` attribute within `.fc-daygrid-day` class.
