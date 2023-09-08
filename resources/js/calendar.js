@@ -62,16 +62,31 @@ while (num <= 12){
 
 async function fetchHolidays(year) {
     const nextYear = year + 1;
-    const responseThisYear = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
-    const holidaysThisYear = await responseThisYear.json();
-    const responseNextYear = await fetch(`https://holidays-jp.github.io/api/v1/${nextYear}/date.json`);
-    const holidaysNextYear = await responseNextYear.json();
-    return [...Object.keys(holidaysThisYear), ...Object.keys(holidaysNextYear)];
+    
+    const fetchYearHolidays = async (targetYear) => {
+        const response = await fetch(`https://holidays-jp.github.io/api/v1/${targetYear}/date.json`);
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.warn(`No holidays data found for ${targetYear}. Skipping.`);
+                return [];
+            } else {
+                console.error(`Failed to fetch holidays for ${targetYear}. Status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        }
+        const holidaysData = await response.json();
+        return Object.keys(holidaysData);
+    };
+
+    const holidaysThisYear = await fetchYearHolidays(year);
+    const holidaysNextYear = await fetchYearHolidays(nextYear);
+
+    return [...holidaysThisYear, ...holidaysNextYear];
 }
+
 
 async function highlightHolidays() {
     let currentYear;
-
     if (pattern.test(url_start_date)) {
         currentYear = new Date(url_start_date).getFullYear();
     } else {
