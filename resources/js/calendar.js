@@ -102,10 +102,12 @@ async function highlightHolidays() {
         const date = daygrid.getAttribute('data-date');  // Getting the value of the data-date attribute
         const hasHEvent = !!daygrid.querySelector('.fc-daygrid-event-harness .fc-h-event');  // Using the nested selector to find .fc-h-event
 
-        if (holidays.includes(date) && hasHEvent) {
+        if (holidays.includes(date)) {
             const dayNumberElement = daygrid.querySelector('.fc-daygrid-day-number');
             dayNumberElement.style.color = 'red';
-            dayNumberElement.style.fontWeight = 'bold';
+            if (hasHEvent) {
+                dayNumberElement.style.fontWeight = 'bold';
+            }
         }
     });
 }
